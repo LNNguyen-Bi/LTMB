@@ -1,13 +1,15 @@
+// Lớp đại diện cho một ghi chú
 class Note {
-  int? id;
-  String title;
-  String content;
-  int priority;
-  DateTime createdAt;
-  DateTime modifiedAt;
-  List<String>? tags;
-  String? color;
+  int? id; // ID của ghi chú
+  String title; // Tiêu đề ghi chú
+  String content; // Nội dung ghi chú
+  int priority; // Mức độ ưu tiên
+  DateTime createdAt; // Thời gian tạo
+  DateTime modifiedAt; // Thời gian sửa đổi
+  List<String>? tags; // Danh sách thẻ
+  String? color; // Màu sắc ghi chú
 
+  // Constructor
   Note({
     this.id,
     required this.title,
@@ -19,6 +21,18 @@ class Note {
     this.color,
   });
 
+  // Hàm khởi tạo từ Map
+  Note.fromMap(Map<String, dynamic> map)
+      : id = map['id'],
+        title = map['title'],
+        content = map['content'],
+        priority = map['priority'],
+        createdAt = DateTime.parse(map['createdAt']),
+        modifiedAt = DateTime.parse(map['modifiedAt']),
+        tags = map['tags']?.split(','), // Chuyển đổi chuỗi thẻ thành danh sách
+        color = map['color'];
+
+  // Hàm chuyển đổi ghi chú thành Map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -27,25 +41,12 @@ class Note {
       'priority': priority,
       'createdAt': createdAt.toIso8601String(),
       'modifiedAt': modifiedAt.toIso8601String(),
-      'tags': tags?.join(','),
+      'tags': tags?.join(','), // Chuyển đổi danh sách thẻ thành chuỗi
       'color': color,
     };
   }
 
-  static Note fromMap(Map<String, dynamic> map) {
-    return Note(
-        id: map['id'],
-        title: map['title'],
-        content: map['content'],
-        priority: map['priority'],
-        createdAt: DateTime.parse(map['createdAt']),
-    modifiedAt: DateTime.parse(map['modifiedAt']),
-    tags: map['tags']?.split(','),
-    color:
-    map['color'],
-    );
-  }
-
+  // Hàm sao chép ghi chú với các thuộc tính mới
   Note copyWith({
     int? id,
     String? title,
